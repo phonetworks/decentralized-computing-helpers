@@ -1,0 +1,29 @@
+{
+    "name": "phonetworks/decentralized-computing-helpers",
+    "type": "library",
+    "description": "Helper methods for decentralized computing",
+    "homepage": "https://phonetworks.org",
+    "license": "MIT",
+    "authors": [
+          {
+              "name": "Emre Sokullu",
+              "email": "emre@phonetworks.org",
+              "homepage": "http://www.emresokullu.com"
+          }
+      ],
+      "require": {
+          "php":"^7.1"
+      },
+      "require-dev": {
+          "phpunit/phpunit": "^6.0",
+          "phpdocumentor/phpdocumentor": "*",
+          "fzaninotto/faker": "^1.6",
+          "psy/psysh": "*",
+          "squizlabs/php_codesniffer": "^2.5"
+      },
+      "autoload": {
+           "psr-4": {
+                 "Pho\\DecentralizedComputing\\": "src/Pho/DecentralizedComputing/"
+           }
+      }
+  }
