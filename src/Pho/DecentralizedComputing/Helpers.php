@@ -36,7 +36,6 @@ class Helpers
      */
     public static function generate_kademlia_id(): string
     {
-        //return \sha1(\random_bytes(16));
         return  \bin2hex(\random_bytes(20));
     }
 
