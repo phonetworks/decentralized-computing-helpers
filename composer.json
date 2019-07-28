@@ -31,5 +31,10 @@
            "files": [
                "src/functions.php"
             ]
+      },
+      "autoload-dev": {
+        "psr-4": {
+              "Pho\\DecentralizedComputing\\Tests\\": "tests/"
+        }
       }
   }
