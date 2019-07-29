@@ -20,7 +20,7 @@ class Bucket
 
     protected $store_key_length = 0;
 
-    public $store = [];
+    protected $store = [];
 
     protected function generateStoreKey($key)
     {
@@ -37,7 +37,7 @@ class Bucket
 
     public function add(string $key, array $values)
     {
-        $key = Helpers::hex_to_bin($key);
+        $key = Helpers::hex_to_bin($key, Helpers::KademliaIdBinaryLength);
         $chars = str_split($key);
         $bucket_key = "";
         foreach($chars as $char) {
@@ -45,12 +45,35 @@ class Bucket
             $temp_key = $this->generateStoreKey($bucket_key);
             if(!isset($this->store[$temp_key])) {
                 $this->store[$temp_key] = array();
+                $this->rebalance_upper_tree($temp_key);
                 $this->store[$temp_key][$key] = $values;
                 return;
             }
-            elseif(count($this->store[$tkeya])<$this->max_stores_per_bucket) {
+            elseif(count($this->store[$temp_key])<$this->max_stores_per_bucket) {
                 $this->store[$temp_key][$key] = $values;  
                 return;
+            }
+        }
+    }
+
+    public function export(): array
+    {
+        return $this->store;
+    }
+
+    protected function rebalance_upper_tree(string $new_key): void
+    {
+        $clean_new_key = str_replace(self::KeyFill, "", $new_key);
+        $pos = strpos($new_key, self::KeyFill);
+        if($pos <= 1)
+            return;
+        $upper_key = $new_key;
+        $upper_key[($pos-1)] = self::KeyFill;
+        foreach($this->store[$upper_key] as $key=>$values) {
+            if(strpos($key, $clean_new_key)===0) {
+                // log
+                unset($this->store[$upper_key][$key]);
+                $this->store[$new_key][$key] = $values;
             }
         }
     }

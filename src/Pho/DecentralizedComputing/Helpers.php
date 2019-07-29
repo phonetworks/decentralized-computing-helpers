@@ -22,6 +22,8 @@ namespace Pho\DecentralizedComputing;
 class Helpers
 {
 
+    const KademliaIdBinaryLength = 160;
+
     /**
      * Generates a cryptographically secure random Id
      * 
@@ -65,16 +67,17 @@ class Helpers
     }
 
 
-    public static function hex_to_bin(string $hex): string
+    public static function hex_to_bin(string $hex, int $padding = -1): string
     {
         
         return self::dec_to_bin(
-            \BCMathExtended\BC::hexdec($hex)
+            \BCMathExtended\BC::hexdec($hex),
+            $padding
         );
     }
 
     // https://stackoverflow.com/a/25017999
-    public static function dec_to_bin(/*mixed*/ $decimal_i): string
+    public static function dec_to_bin(/*mixed*/ $decimal_i, int $padding = -1): string
     {
         \bcscale(0);
         $binary_i = '';
@@ -84,7 +87,11 @@ class Helpers
             $decimal_i = \bcdiv($decimal_i,'2');
         } while (\bccomp($decimal_i,'0'));
 
-        return($binary_i);
+        if($padding!=-1) {
+            $binary_i = \str_pad($binary_i, $padding, "0", STR_PAD_LEFT);
+        }
+
+        return $binary_i;
     }
 
 
