@@ -11,35 +11,29 @@
 
 namespace Pho\DecentralizedComputing;
 
-class Bucket
+class BucketBox
 {
 
     protected $max_stores_per_bucket = 20;
+    protected $buckets = array();
 
-    protected $store = [];
-
-    public function probe(): void
+    public function __construct(string $id)
     {
-        var_dump($this->store);
+        $this->buckets[0] = new Bucket;
+        //$this->buckets[0]->add($id);
     }
 
-    public function add(Entry $entry)
+    public function add(int $proximity, Entry $entry): void
     {
-        $id = $entry->id();
-        if(count($this->store)<$this->max_stores_per_bucket) {
-            $this->store[$id] = $entry;
+        if(!isset($this->buckets[$proximity])) {
+            $this->buckets[$proximity] = new Bucket; 
             return;
         }
+        $this->buckets[$proximity]->add($entry);
     }
 
     public function export(): array
     {
-        return $this->store;
+        return $this->buckets;
     }
-
-    public function __toString(): string
-    {
-        return print_r($this->store, true);
-    }
-
 }
