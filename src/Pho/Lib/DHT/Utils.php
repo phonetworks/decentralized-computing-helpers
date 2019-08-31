@@ -9,7 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Pho\DecentralizedComputing;
+namespace Pho\Lib\DHT;
+
+use BCMathExtended\BC as BCe;
 
 /**
  * This class contains helper methods for decentralized
@@ -21,24 +23,6 @@ namespace Pho\DecentralizedComputing;
  */
 class Helpers
 {
-
-    const KademliaIdBinaryLength = 160;
-
-    /**
-     * Generates a cryptographically secure random Id
-     * 
-     * Completely random
-     * better for security
-     * To use as key and node ID
-     * 160 bits, e.g. 20 bytes
-     *
-     * @return string
-     */
-    public static function generate_kademlia_id(): string
-    {
-        return  \bin2hex(\random_bytes(20));
-    }
-
     /**
      * Computes XOR distance between two numbers.
      * 
@@ -54,7 +38,9 @@ class Helpers
     public static function xor_distance(string $num1, string $num2): int
     {
         $count = 0;
-        $xor = \BCMathExtended\BC::bitXor((string) $num1, (string) $num2);
+        $num1 = BCe::hexdec($num1);
+        $num2 = BCe::hexdec($num2);
+        $xor = BCe::bitXor((string) $num1, (string) $num2);
         $xor_bin = self::dec_to_bin($xor);
         return substr_count($xor_bin, "1");
         /*
@@ -71,7 +57,7 @@ class Helpers
     {
         
         return self::dec_to_bin(
-            \BCMathExtended\BC::hexdec($hex),
+            BCe::hexdec($hex),
             $padding
         );
     }

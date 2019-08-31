@@ -27,7 +27,7 @@ class BucketTest extends \PHPUnit\Framework\TestCase
 
     public function test100Ids()
     {
-        $this->_testXIds(100);
+        $this->_testXIds(100, false);
     }
 
     public function test500Ids()
@@ -52,6 +52,6 @@ class BucketTest extends \PHPUnit\Framework\TestCase
 
     public function test10000Ids()
     {
-        $this->_testXIds(10000, true);
+        $this->_testXIds(10000, false);
     }
 }
