@@ -13,8 +13,8 @@ namespace Pho\Lib\DHT;
 
 interface RouterInterface
 {
-    public function boostrap(ID $id): void;
-    public function find(ID $id): PeerInterface;
+    public function boostrap(IDInterface $id): void;
+    public function find(IDInterface $id): PeerInterface;
     public function touch(PeerInterface $node): void;
     public function stale(PeerInterface $node): void;
 

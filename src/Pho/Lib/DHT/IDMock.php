@@ -51,27 +51,15 @@ class IDMock implements IDInterface
     }
 
     /**
-     * Computes XOR distance between two numbers.
-     * 
-     * Parameters in string format to deal with bignums
-     *
-     * @link https://stackoverflow.com/questions/27081124/binary-separation-distance-java
-     * 
-     * @param string $compare in hexadecimal format
-     * 
-     * @return int The distance in decimal format
+     * {@inheritDoc}
      */
-    public function compareDistance(string $compare): int
+    public function distance($compare): int
     {
         return Utils::xor_distance($this->id, $compare);
     }
 
     /**
-     * Returns the ID in binary format
-     * with a padding ensuring it is 
-     * 160 chars long.
-     *
-     * @return string
+     * {@inheritDoc}
      */
     public function bin(): string
     {

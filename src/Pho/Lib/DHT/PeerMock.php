@@ -19,7 +19,7 @@ class PeerMock implements PeerInterface
 
     public function __construct(string $ip, int $port)
     {
-        $this->id = (string) (new ID);
+        $this->id = (string) (new IDMock);
         $this->ip = $ip;
         $this->port = $port;
     }

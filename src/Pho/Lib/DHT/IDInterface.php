@@ -15,16 +15,25 @@ use BCMathExtended\BC as BCe;
 
 interface IDInterface
 {
-    public function compareDistance(string $compare): int;
+    /**
+     * Computes XOR distance between two Ids
+     * 
+     * @link https://stackoverflow.com/questions/27081124/binary-separation-distance-java
+     * 
+     * @param mixed $another_id either another IDInterface or string (in hex format)
+     * 
+     * @return int The distance
+     */
+    public function distance(/*mixed*/ $another_id): int;
 
     /**
      * Returns the ID in binary format
-     * with a padding ensuring it is 
-     * 160 chars long.
+     * 
+     * @param int $padding for a 160 bit ID, this would be 160, 0 for null.
      *
      * @return string
      */
-    public function bin(): string;
+    public function bin(int $padding): string;
 
 
 }
