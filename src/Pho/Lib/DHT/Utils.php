@@ -21,7 +21,7 @@ use BCMathExtended\BC as BCe;
  * 
  * @author Emre Sokullu <emre@phonetworks.orgg>
  */
-class Helpers
+class Utils
 {
     /**
      * Computes XOR distance between two numbers.
