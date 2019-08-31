@@ -13,17 +13,29 @@ namespace Pho\Lib\DHT;
 
 class PeerMock implements PeerInterface
 {
-    protected $node_id;
+    protected $id;
     protected $ip;
     protected $port;
 
-    public function __construct()
+    public function __construct(string $ip, int $port)
     {
-        $this->node_id = ID::generate();
+        $this->id = (string) (new ID);
+        $this->ip = $ip;
+        $this->port = $port;
     }
 
     public function id(): string
     {
-        return $this->node_id;
+        return $this->id;
+    }
+
+    public function ip(): string
+    {
+        return $this->ip;
+    }
+
+    public function port(): int
+    {
+        return $this->port;
     }
 }

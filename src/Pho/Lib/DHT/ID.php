@@ -13,7 +13,7 @@ namespace Pho\Lib\DHT;
 
 use BCMathExtended\BC as BCe;
 
-class ID
+class ID implements IDInterface
 {
     const BitLength = 160;
     const ByteLength = (self::BitLength / 8);
