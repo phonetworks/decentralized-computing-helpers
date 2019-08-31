@@ -1,7 +1,7 @@
 {
-    "name": "phonetworks/decentralized-computing-helpers",
+    "name": "phonetworks/pho-lib-dht",
     "type": "library",
-    "description": "Helper methods for decentralized computing",
+    "description": "A PHP DHT implementation",
     "homepage": "https://phonetworks.org",
     "license": "MIT",
     "authors": [
