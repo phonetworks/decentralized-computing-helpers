@@ -26,11 +26,8 @@
       },
       "autoload": {
            "psr-4": {
-                 "Pho\\DecentralizedComputing\\": "src/Pho/DecentralizedComputing/"
-           },
-           "files": [
-               "src/functions.php"
-            ]
+                 "Pho\\Lib\\DHT\\": "src/Pho/Lib/DHT/"
+           }
       },
       "autoload-dev": {
         "psr-4": {
