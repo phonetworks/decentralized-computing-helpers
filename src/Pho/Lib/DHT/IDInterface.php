@@ -11,8 +11,6 @@
 
 namespace Pho\Lib\DHT;
 
-use BCMathExtended\BC as BCe;
-
 interface IDInterface
 {
     /**
@@ -28,12 +26,10 @@ interface IDInterface
 
     /**
      * Returns the ID in binary format
-     * 
-     * @param int $padding for a 160 bit ID, this would be 160, 0 for null.
      *
      * @return string
      */
-    public function bin(int $padding): string;
+    public function bin(): string;
 
 
 }
