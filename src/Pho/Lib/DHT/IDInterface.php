@@ -20,9 +20,9 @@ interface IDInterface
      * 
      * @param mixed $another_id either another IDInterface or string (in hex format)
      * 
-     * @return int The distance
+     * @return string The distance  (string because it may be a bignum)
      */
-    public function distance(/*mixed*/ $another_id): int;
+    public function distance(/*mixed*/ $another_id): string;
 
     /**
      * Returns the ID in binary format
