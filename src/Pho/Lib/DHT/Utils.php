@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Pho\DHT;
+namespace Pho\Lib\DHT;
 
 use BCMathExtended\BC as BCe;
 
