@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Pho\Lib\DHT;
+namespace Pho\DHT;
 
 use BCMathExtended\BC as BCe;
 
@@ -33,23 +33,21 @@ class Utils
      * @param string $num1 in hexadecimal format
      * @param string $num2 in hexadecimal format
      * 
-     * @return int The distance in decimal format
+     * @return string The distance in decimal format
      */
-    public static function xor_distance(string $num1, string $num2): int
+    public static function xor_distance(string $num1, string $num2): string
     {
         $count = 0;
         $num1 = BCe::hexdec($num1);
         $num2 = BCe::hexdec($num2);
         $xor = BCe::bitXor((string) $num1, (string) $num2);
-        $xor_bin = self::dec_to_bin($xor);
-        return substr_count($xor_bin, "1");
-        /*
-        while($xor!=0) {
-            $count++;
-            $xor &= ($xor-1);
-        }
-        return $count;
-        */
+        return $xor;
+    }
+
+    public static function xor_bucket(string $num1, string $num2): string
+    {
+        $distance = self::xor_distance($num1, $num2);
+        return BCe::div(BCe::log($distance), BCe::log("2"));
     }
 
 
@@ -78,6 +76,49 @@ class Utils
         }
 
         return $binary_i;
+    }
+
+    /**
+     * Finds the longest common prefix in given sets of strings
+     * 
+     * Useful in seeking the common prefix of binaries in a Kademlia
+     * tree. 
+     * 
+     * Good for debugging but not recommended for production as it would 
+     * be slow.
+     *
+     * @param array $arr A set of string objects.
+     * 
+     * @return string The common prefix
+     */
+    public static function longest_common_prefix(array $arr): string 
+    {
+        $common_str= $arr[0];
+        foreach ($arr as $key=>$value)
+        {
+            $arr[$key] = \str_split($value);
+        }
+        $length = \count($arr);
+        $temp = $arr[0];
+        $len = \count($temp);
+        for ($i=0;$i<$len;$i++)
+        {
+            for ($n=1; $n<$length; $n++)
+            {
+                if($temp[$i]!=$arr[$n][$i])
+                {
+                    if($i == 0)
+                    {
+                        return "";
+                    }
+                    return \substr($common_str,0,$i);
+                }
+            }
+            if ($i==$len-1)
+            {
+                return $common_str;
+            }
+        }
     }
 
 

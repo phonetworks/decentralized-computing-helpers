@@ -9,9 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Pho\Lib\DHT;
+namespace Pho\Lib\DHT\Mocks;
 
-class PeerMock implements PeerInterface
+class Peer implements PeerInterface
 {
     protected $id;
     protected $ip;
@@ -19,7 +19,7 @@ class PeerMock implements PeerInterface
 
     public function __construct(string $ip, int $port)
     {
-        $this->id = (string) (new IDMock);
+        $this->id = (string) (new ID);
         $this->ip = $ip;
         $this->port = $port;
     }

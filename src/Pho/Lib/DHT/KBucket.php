@@ -18,8 +18,16 @@ namespace Pho\Lib\DHT;
  */
 class KBucket extends \SplDoublyLinkedList
 {
-    const MAX = 20;
+    /**
+     * Max number of elements this list can hold
+     *
+     * @var integer
+     */
+    protected static $max = 20;
 
+    /**
+     * Pushes until it reaches the end
+     */
     public function push(/*mixed*/ $value): void
     {
         if($this->maxed())
@@ -27,8 +35,13 @@ class KBucket extends \SplDoublyLinkedList
         parent::push($value);
     }
 
+    /**
+     * Checks if the max # of elements is reached.
+     *
+     * @return boolean
+     */
     public function maxed(): bool
     {
-        return ($this->count()==self::MAX);
+        return ($this->count()==static::$max);
     }
 }

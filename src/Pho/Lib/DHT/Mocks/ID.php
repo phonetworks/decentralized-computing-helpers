@@ -9,14 +9,16 @@
  * file that was distributed with this source code.
  */
 
-namespace Pho\Lib\DHT;
+namespace Pho\Lib\DHT\Mocks;
 
 use BCMathExtended\BC as BCe;
+use Pho\Lib\DHT\{IDInterface, Utils};
 
-class IDMock implements IDInterface
+class ID implements IDInterface
 {
     const BitLength = 160;
     const ByteLength = (self::BitLength / 8);
+
     protected $id; // in hex
 
     public function __construct(string $id = "")
@@ -53,7 +55,7 @@ class IDMock implements IDInterface
     /**
      * {@inheritDoc}
      */
-    public function distance($compare): int
+    public function distance($compare): string
     {
         return Utils::xor_distance($this->id, $compare);
     }
