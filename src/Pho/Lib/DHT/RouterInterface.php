@@ -20,17 +20,25 @@ namespace Pho\Lib\DHT;
  */
 interface RouterInterface
 {
+
+    /**
+     * Returns the ID of the peer
+     *
+     * @return string
+     */
+    public function id(): string;
+
     /**
      * Pings the network about its existence
      * 
      * Must have a prior seeds list determined
      * in the constructor
      *
-     * @param IDInterface $id
+     * @param PeerInterface $self
      * 
      * @return void
      */
-    public function bootstrap(IDInterface $id): void;
+    public function bootstrap(PeerInterface $self): void;
 
     /**
      * Finds a peer given its ID

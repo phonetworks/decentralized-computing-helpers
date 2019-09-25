@@ -44,4 +44,43 @@ class KBucket extends \SplDoublyLinkedList
     {
         return ($this->count()==static::$max);
     }
+
+    /**
+     * Checks if the given ID exists in the index
+     *
+     * Return the index # if available
+     * Otherwise, return -1
+     * 
+     * @param string $id
+     * @return integer
+     */
+    public function has(string $id): int
+    {
+        $this->rewind();
+        $i = 0;
+        while($this->valid()){
+            if($this->current()==$id)
+            $this->next();
+            return $i;
+            $i++;
+        }
+        return -1;
+    }
+
+    /**
+     * Converts the list into an array
+     *
+     * @return array
+     */
+    public function toArray(): array
+    {
+        $res = array();
+        $this->rewind();
+        $i = 0;
+        while($this->valid()){
+            $res[$i++] = $this->current(); 
+            $this->next();
+        }
+        return $res;
+    }
 }

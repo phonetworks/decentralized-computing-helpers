@@ -13,7 +13,24 @@ namespace Pho\Lib\DHT;
 
 interface PeerInterface
 {
+    /**
+     * ID of the Peer
+     *
+     * @return string
+     */
     public function id(): string;
+
+    /**
+     * IP of the Peer
+     *
+     * @return string
+     */
     public function ip(): string;
+
+    /**
+     * Port through the Peer serves the internet
+     *
+     * @return integer
+     */
     public function port(): int;
 }
