@@ -45,7 +45,7 @@ class ID implements IDInterface
      */
     protected function generate(): string
     {
-        $id = \bin2hex(
+        return \bin2hex(
             \random_bytes(
                 (self::ByteLength)
             )

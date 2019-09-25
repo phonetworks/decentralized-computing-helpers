@@ -11,6 +11,8 @@
 
 namespace Pho\Lib\DHT\Mocks;
 
+use Pho\Lib\DHT\PeerInterface;
+
 class Peer implements PeerInterface
 {
     protected $id;

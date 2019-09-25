@@ -83,4 +83,44 @@ class KBucket extends \SplDoublyLinkedList
         }
         return $res;
     }
+
+        /**
+     * Fetches the most stable active Peer
+     *
+     * Also evicts dead ones.
+     * 
+     * @return void
+     */
+    public function getActive()
+    {
+        
+        while(!$this->ping()) {
+            $this->shift();
+        }
+        return $this->bottom();
+    }
+
+    public function ping(): bool
+    {
+        $this->current();
+    }
+
+    /**
+     * Retrieves multiple actives
+     *
+     * @param integer $i
+     * @return void
+     */
+    public function getActives(int $i=3)
+    {
+        foreach($this as $k=>$x) {
+            if(!$this->ping($x)) {
+                $this->evict($k);
+                continue;
+            }
+            yield $x;
+            if(--$i<=0)
+                break;
+        }
+    }
 }

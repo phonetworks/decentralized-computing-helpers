@@ -34,11 +34,11 @@ interface RouterInterface
      * Must have a prior seeds list determined
      * in the constructor
      *
-     * @param PeerInterface $self
+     * @param ?PeerInterface $self
      * 
      * @return void
      */
-    public function bootstrap(PeerInterface $self): void;
+    public function bootstrap(?PeerInterface $self): void;
 
     /**
      * Finds a peer given its ID
@@ -74,14 +74,7 @@ interface RouterInterface
      */
     public function stale(/*mixed*/ $entity): void;
 
-    /**
-     * Checks if the peer is still alive.
-     *
-     * @param PeerInterface $peer
-     * @return boolean
-     */
-    public function ping(PeerInterface $peer): bool;
-
+    
     /**
      * Returns the tree.
      * 

@@ -11,7 +11,7 @@
 
 namespace Pho\Lib\DHT;
 
-class Router extends \Sabre\Event\Emitter implements RouterInterface
+class Router /*extends \Sabre\Event\Emitter*/ implements RouterInterface
 {
     const TIMEOUT = 1.5;
     const CONFIGURABLES = [
@@ -23,6 +23,7 @@ class Router extends \Sabre\Event\Emitter implements RouterInterface
     
     protected $seeds;
     protected $id;
+    protected $self = null;
     protected $connector;
     protected $tree = array();
     protected $kbucket_size = 20;
@@ -38,9 +39,10 @@ class Router extends \Sabre\Event\Emitter implements RouterInterface
      * @param array $seeds in the form [id<string>=>PeerInterface]
      * @param array $params 
      */
-    public function __construct(PeerInterface $self, array $seeds = [], array $params = [])
+    public function __construct(?PeerInterface $self = null, array $seeds = [], array $params = [])
     {
-        parent::__construct(); //  Sabre\Event\Emitter
+        //parent::__construct(); //  Sabre\Event\Emitter
+        $this->self = $self;
         $this->seeds = $seeds;
         foreach(self::CONFIGURABLES as $configurable)
         {
@@ -48,7 +50,7 @@ class Router extends \Sabre\Event\Emitter implements RouterInterface
                 $this->$configurable = $params[$configurable];
             }
         }
-        $this->handle();
+        //$this->handle();
     }
 
     /**
@@ -96,11 +98,15 @@ class Router extends \Sabre\Event\Emitter implements RouterInterface
     /**
      * {@inheritDoc}
      */
-    public function bootstrap( PeerInterface $self ): void
+    public function bootstrap( ?PeerInterface $self = null ): void
     {
-        $this->id = (string) $self->id();
+        if(is_null($self) && is_null($this->self))
+            throw new \Exception("can't bootstrap");
+        if(!is_null($self))
+            $this->self = $self;
+        $this->id = (string) $this->self->id();
         $this->tree = new RouteTree((string) $this->id, $this->kbucket_size, $this->bit_length, $this->debug);
-        $this->touch($self);
+        $this->touch($this->self);
         foreach($this->seeds as $peer) {
             $this->touch($peer);
             $this->ping($peer);
@@ -122,85 +128,8 @@ class Router extends \Sabre\Event\Emitter implements RouterInterface
      */
     public function touch(/*mixed*/ $entity): void
     {
-        if(!($entity instanceof PeerInterface) && is_array($entity)) {
-            //  ip, port, id
-            //echo "creating entity";
-            $entity = new PeerMock($entity["ip"], $entity["port"], $entity["id"]);
-            //echo "it's done";
-            //var_dump($this->tree->toArray());
-        }
         $this->tree->push($entity);
     }
-
-     /**
-     * {@inheritDoc}
-     */
-    public function ping(PeerInterface $peer): bool
-    {
-        /*
-        $uri = $peer->ip().":".$peer->port();
-        $this->connector->connect($uri)->then(function (\React\Socket\ConnectionInterface $conn) use ($data) {
-            $conn->write("PING\n");
-            echo "ping'ledim\n";
-            $conn->on('data', function ($data) use ($conn) {
-                if(trim($data)=="PONG")
-                    echo "pong aldim\n";
-                $conn->close();
-            });
-            //$conn->end();
-        });
-        return true;
-        */
-        /*
-        $uri = "127.0.0.1:9000";
-        $loop = \React\EventLoop\Factory::create();
-        $connector = new \React\Socket\Connector($loop,[]);
-        $connector->connect($uri)->then(function (\React\Socket\ConnectionInterface $conn) {
-            $conn->write("PING\n");
-            echo "ping'ledim\n";
-            $conn->on('data', function ($data) use (&$conn) {
-                if(trim($data)=="PONG")
-                    echo "pong aldim\n";
-                $conn->close();
-            });
-        });
-        $loop->run();
-        */
-
-        /*
-        $ping = new \JJG\Ping($peer->ip());
-        $ping->setTimeout(self::TIMEOUT);
-        $latency = $ping->ping();
-        return ($latency !== false);
-        */
-
-        $uri = $peer->ip().":".$peer->port();
-        $loop = \React\EventLoop\Factory::create();
-        $connector = new \React\Socket\Connector($loop,[
-            'timeout' => self::TIMEOUT
-        ]);
-         $connector->connect($uri)->then(
-             function (\React\Socket\ConnectionInterface $conn) use ($peer) {
-                echo "in";
-                $conn->write("PING {$this->id()}\n");
-                echo "ping'ledim\n";
-                $conn->on('data', function ($data) use (&$conn, $peer) {
-                    if(trim($data)=="PONG")
-                        echo "pong aldim\n";
-                    $this->touch($peer);
-                    $conn->close();
-                });
-             },
-            function (\Exception $error) {
-                // failed to connect due to $error
-                echo "PONG ALAMADIM!";
-            }
-        );
- $loop->run();
-        return true;
-    }
-
-
 
     public function lookup(string $id)
     {
@@ -242,20 +171,6 @@ class Router extends \Sabre\Event\Emitter implements RouterInterface
         return $peers;
     }
 
-    public function tree(): ?array
-    {
-        if(!$this->debug)
-            return null;
-        return $this->tree->toArray();
-    }
-
-    public function dumpTree(): ?array
-    {
-        if(!$this->debug)
-            return null;
-        return $this->tree->dump();
-    }
-
     public function getNearestBucket(string $distance, int $skip = 0): KBucket
     {
         return $this->tree->kbucket(
@@ -288,6 +203,20 @@ class Router extends \Sabre\Event\Emitter implements RouterInterface
             $j++;
         }
         throw new \Exception("No nearest bucket, meaning no seeds, or must have ran a second time with little data");
+    }
+
+    public function tree(): ?array
+    {
+        if(!$this->debug)
+            return null;
+        return $this->tree->toArray();
+    }
+
+    public function dumpTree(): ?array
+    {
+        if(!$this->debug)
+            return null;
+        return $this->tree->dump();
     }
 
 }

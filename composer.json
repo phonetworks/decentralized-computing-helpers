@@ -28,5 +28,10 @@
            "psr-4": {
                  "Pho\\Lib\\DHT\\": "src/Pho/Lib/DHT/"
            }
-      }
+      },
+      "autoload-dev": {
+            "psr-4": {
+                "Pho\\Lib\\DHT\\": "tests/"
+            }
+   }
   }
