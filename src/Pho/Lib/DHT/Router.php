@@ -104,20 +104,13 @@ class Router /*extends \Sabre\Event\Emitter*/ implements RouterInterface
             throw new \Exception("can't bootstrap");
         if(!is_null($self))
             $this->self = $self;
-        $this->fetchId();
+        $this->id = Utils::cleanupId((string) $this->self->id());
         $this->tree = new RouteTree((string) $this->id, $this->kbucket_size, $this->bit_length, $this->debug);
         $this->touch($this->self);
         foreach($this->seeds as $peer) {
             $this->touch($peer);
             $this->ping($peer);
         }
-    }
-
-    protected function fetchId(): void
-    {
-        $id = (string) $this->self->id();
-        $id = \str_replace("-", "", \strtolower($id));
-        $this->id = $id;
     }
 
     public function stale(/*mixed*/ $entity): void

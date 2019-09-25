@@ -121,5 +121,19 @@ class Utils
         }
     }
 
+    /**
+     * Clean up ID
+     * 
+     * So that the XOR computations can be made
+     * strtolower and remove dashes.
+     *
+     * @param string $id
+     * @return string
+     */
+    protected static function cleanupId(string $id): string
+    {
+        return \str_replace("-", "", \strtolower($id));
+    }
+
 
 }
