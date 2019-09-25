@@ -25,8 +25,19 @@ class Router /*extends \Sabre\Event\Emitter*/ implements RouterInterface
     protected $id;
     protected $self = null;
     protected $connector;
-    protected $tree = array();
+
+    /**
+     * @var RouteTree
+     */
+    protected $tree;
+
     protected $kbucket_size = 20;
+    
+    /**
+     * This is by default 160 in Kademlia
+     *
+     * @var integer
+     */
     protected $bit_length = 128;
     protected $debug = false;
     protected $parallel_search = 3;
