@@ -24,7 +24,7 @@ class ID implements IDInterface
     public function __construct(string $id = "")
     {
         if(empty($id))
-            $id = $this->generate();
+            $id = $this::generate();
         $this->id = $id;
     }
 
@@ -43,7 +43,7 @@ class ID implements IDInterface
      *
      * @return string
      */
-    protected function generate(): string
+    public static function generate(): string
     {
         return \bin2hex(
             \random_bytes(
