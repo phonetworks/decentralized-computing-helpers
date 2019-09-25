@@ -38,8 +38,8 @@ class Utils
     public static function xor_distance(string $num1, string $num2): string
     {
         $count = 0;
-        $num1 = BCe::hexdec($num1);
-        $num2 = BCe::hexdec($num2);
+        $num1 = static::cleanupId(BCe::hexdec($num1));
+        $num2 = static::cleanupId(BCe::hexdec($num2));
         $xor = BCe::bitXor((string) $num1, (string) $num2);
         return $xor;
     }
