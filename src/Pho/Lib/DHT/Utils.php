@@ -130,7 +130,7 @@ class Utils
      * @param string $id
      * @return string
      */
-    protected static function cleanupId(string $id): string
+    public static function cleanupId(string $id): string
     {
         return \str_replace("-", "", \strtolower($id));
     }
