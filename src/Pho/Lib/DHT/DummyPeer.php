@@ -9,19 +9,22 @@
  * file that was distributed with this source code.
  */
 
-namespace Pho\Lib\DHT\Mocks;
+namespace Pho\Lib\DHT;
 
-use Pho\Lib\DHT\PeerInterface;
+use Pho\Lib\DHT\Mocks\ID;
 
-class Peer implements PeerInterface
+class DummyPeer implements PeerInterface
 {
     protected $id;
     protected $ip;
     protected $port;
 
-    public function __construct(string $ip, int $port)
+    public function __construct(string $ip, int $port, string $id = "")
     {
-        $this->id = (string) (new ID);
+        if(empty($id))
+            $this->id = (string) (new ID);
+        else
+            $this->id = $id;
         $this->ip = $ip;
         $this->port = $port;
     }

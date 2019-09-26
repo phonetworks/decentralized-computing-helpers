@@ -13,7 +13,7 @@ namespace Pho\Lib\DHT;
 
 use Pho\Lib\DHT\Network;
 use Pho\Lib\DHT\Utils;
-use Pho\Lib\DHT\Mocks\{Peer, ID};
+use Pho\Lib\DHT\Mocks\ID;
 
 /**
  * Route Tree
@@ -27,7 +27,7 @@ class RouteTreeTest extends TestCase
         $seeds = [];
         $network_ip = $this->faker->ipv4;
         $network_port = rand(80, 9000);
-        $network_peer = new Peer($network_ip, $network_port);
+        $network_peer = new DummyPeer($network_ip, $network_port);
         $this->network_id = $network_peer->id();
         $this->network = new Router($network_peer, $seeds, ["debug"=>true]);
         $this->network->bootstrap();
@@ -46,7 +46,7 @@ class RouteTreeTest extends TestCase
         $seeds = [];
         $peer_ip = $this->faker->ipv4;
         $peer_port = rand(80, 9000);
-        $peer = new Peer($peer_ip, $peer_port);
+        $peer = new DummyPeer($peer_ip, $peer_port);
         $this->peer_id = $peer->id();
         $network->touch($peer);
         $this->assertCount(2, $network->tree());
@@ -73,9 +73,9 @@ class RouteTreeTest extends TestCase
         $res = $this->_testX(100, [], false, 1000 /* large bucket */);
         $ip = $this->faker->ipv4;
         $port = rand(8000, 9000);
-        $peer = new Peer($ip, $port);
+        $peer = new DummyPeer($ip, $port);
         $this->network->touch($peer);
         $distance = Utils::xor_bucket($this->network->id(), $peer->id());
-        $this->assertSame($this->network->findPeers($peer), $peer);
+        $this->assertSame($this->network->findPeers($peer->id()), $peer);
     }
 }

@@ -11,7 +11,7 @@
 
 namespace Pho\Lib\DHT;
 
-use Pho\Lib\DHT\Mocks\{ID, Peer};
+use Pho\Lib\DHT\Mocks\ID;
 use Pho\Lib\DHT\Router;
 
 /**
@@ -46,14 +46,14 @@ class TestCase extends \PHPUnit\Framework\TestCase
     {
         $network_ip = $this->faker->ipv4;
         $network_port = rand(80, 9000);
-        $network_peer = new Peer($network_ip, $network_port);
+        $network_peer = new DummyPeer($network_ip, $network_port);
         $this->network_id = $network_peer->id();
         $this->network = new Router($network_peer, $seeds, ["debug"=>true, "kbucket_size"=> $bucket_size]);
         $this->network->bootstrap();
         if($inspect)
             eval(\Psy\sh());
         for($i=0;$i<$limit;$i++) {
-            $this->peers[$i] = new Peer($this->faker->ipv4, rand(80, 9000));
+            $this->peers[$i] = new DummyPeer($this->faker->ipv4, rand(80, 9000));
             $this->network->touch($this->peers[$i]);
         }
         $this->tree = $this->network->tree();

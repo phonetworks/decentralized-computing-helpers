@@ -12,7 +12,7 @@
 namespace Pho\Lib\DHT;
 
 use Pho\Lib\DHT\Network;
-use Pho\Lib\DHT\Mocks\Peer;
+use Pho\Lib\DHT\DummyPeer;
 
 /**
  * Network Tests
@@ -29,7 +29,7 @@ class NetworkTest extends TestCase
 
     public function testPingPeerFalse()
     {
-        $peer = new Peer("https://google.com", 443);
+        $peer = new DummyPeer("https://google.com", 443);
         $ping = Network::ping($peer);
         $this->assertFalse($ping);
     }
