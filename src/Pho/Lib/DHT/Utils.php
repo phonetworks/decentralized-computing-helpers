@@ -135,5 +135,16 @@ class Utils
         return \str_replace("-", "", \strtolower($id));
     }
 
+    /**
+     * Returns true if both IDs are the same
+     *
+     * @param string $id1
+     * @param string $id2
+     * @return boolean
+     */
+    public static function checkForEqualIds(string $id1, string $id2): bool
+    {
+        return (static::cleanupId($id1) == static::cleanupId($id2));
+    }
 
 }

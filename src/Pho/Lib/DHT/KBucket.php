@@ -59,7 +59,7 @@ class KBucket extends \SplDoublyLinkedList
         $this->rewind();
         $i = 0;
         while($this->valid()){
-            if($this->current()->id()==$id)
+            if(Utils::checkForEqualIds($this->current()->id(), $id))
                 return $i;
             $this->next();
             $i++;
