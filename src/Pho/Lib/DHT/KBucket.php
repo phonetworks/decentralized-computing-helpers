@@ -78,7 +78,11 @@ class KBucket extends \SplDoublyLinkedList
         $this->rewind();
         $i = 0;
         while($this->valid()){
-            $res[$i++] = $this->current(); 
+            $res[$i++] = [
+                $this->current()->id(),
+                $this->current()->ip(),
+                $this->current()->port()
+            ]; 
             $this->next();
         }
         return $res;
