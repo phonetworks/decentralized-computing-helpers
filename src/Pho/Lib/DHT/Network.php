@@ -39,7 +39,8 @@ class Network
     public static function pingUri(string $uri): bool
     {
         $res = json_decode(
-                    @file_get_contents($uri)
+                    @file_get_contents($uri),
+                    true
         );
         return (isset($res["success"]) && $res["success"]);  
     }
