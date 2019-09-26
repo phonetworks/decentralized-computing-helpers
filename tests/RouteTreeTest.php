@@ -12,6 +12,7 @@
 namespace Pho\Lib\DHT;
 
 use Pho\Lib\DHT\Network;
+use Pho\Lib\DHT\Utils;
 use Pho\Lib\DHT\Mocks\{Peer, ID};
 
 /**
@@ -59,10 +60,22 @@ class RouteTreeTest extends TestCase
      */
     public function testSoManyToAPointWhereKBucketsWillFillToTheEnd()
     {
+        //$this->markTestSkipped();
         $seeds = [];
         $res = $this->_testX(1000, [], false);
         $all_peers = $res[2];
         $all_in_buckets = $this::array_flatten($res[3]);
         $this->assertLessThan(count($all_peers), count($all_in_buckets));
+    }
+
+    public function testFindPeer()
+    {
+        $res = $this->_testX(100, [], false, 1000 /* large bucket */);
+        $ip = $this->faker->ipv4;
+        $port = rand(8000, 9000);
+        $peer = new Peer($ip, $port);
+        $this->network->touch($peer);
+        $distance = Utils::xor_bucket($this->network->id(), $peer->id());
+        $this->assertSame($this->network->findPeers($peer), $peer);
     }
 }

@@ -152,7 +152,7 @@ class Router /*extends \Sabre\Event\Emitter*/ implements RouterInterface
         $key = Utils::xor_bucket($id, (string) $this->id);
         $bucket = $this->getNearestBucket($key);
         if(($n=$bucket->has($id))!=-1)
-            return $bucket[$n];
+            return $bucket->offsetGet($n);
         $peer = $bucket->getActive();
         return $peer;
     }
@@ -166,9 +166,9 @@ class Router /*extends \Sabre\Event\Emitter*/ implements RouterInterface
             return null;
         }
         if(($n=$bucket->has($id))!=-1)
-            return $bucket[$n];
+            return $bucket->offsetGet($n);
         $peers = iterator_to_array($bucket->getActives($this->parallel_search));
-        $remaining = $this->parallel_search - count($peers);
+        /*$remaining = $this->parallel_search - count($peers);
         if($remaining>0) {
             $x = $this->findPeers($id, ($skip+1));
             if($x instanceof PeerInterface)
@@ -179,6 +179,7 @@ class Router /*extends \Sabre\Event\Emitter*/ implements RouterInterface
                 }
             }
         }
+        */
         return $peers;
     }
 

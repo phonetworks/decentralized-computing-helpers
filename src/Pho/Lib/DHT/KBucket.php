@@ -59,9 +59,9 @@ class KBucket extends \SplDoublyLinkedList
         $this->rewind();
         $i = 0;
         while($this->valid()){
-            if($this->current()==$id)
+            if($this->current()->id()==$id)
+                return $i;
             $this->next();
-            return $i;
             $i++;
         }
         return -1;
@@ -102,7 +102,8 @@ class KBucket extends \SplDoublyLinkedList
 
     public function ping(): bool
     {
-        $this->current();
+        return true;
+        return Network::ping($this->current());
     }
 
     /**

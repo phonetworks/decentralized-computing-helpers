@@ -42,13 +42,13 @@ class TestCase extends \PHPUnit\Framework\TestCase
         $this->keys = [];
     }
 
-    protected function _testX(int $limit, array $seeds = array(), bool $inspect = false)
+    protected function _testX(int $limit, array $seeds = array(), bool $inspect = false, $bucket_size = 20)
     {
         $network_ip = $this->faker->ipv4;
         $network_port = rand(80, 9000);
         $network_peer = new Peer($network_ip, $network_port);
         $this->network_id = $network_peer->id();
-        $this->network = new Router($network_peer, $seeds, ["debug"=>true]);
+        $this->network = new Router($network_peer, $seeds, ["debug"=>true, "kbucket_size"=> $bucket_size]);
         $this->network->bootstrap();
         if($inspect)
             eval(\Psy\sh());
