@@ -120,7 +120,7 @@ class Router /*extends \Sabre\Event\Emitter*/ implements RouterInterface
         $this->touch($this->self);
         foreach($this->seeds as $peer) {
             $this->touch($peer);
-            $this->ping($peer);
+            Network::ping($peer);
         }
     }
 
