@@ -54,6 +54,9 @@ class Router /*extends \Sabre\Event\Emitter*/ implements RouterInterface
     {
         //parent::__construct(); //  Sabre\Event\Emitter
         $this->self = $self;
+        if(count($seeds)<1) {
+            $seeds = Constants::seeds();
+        }
         $this->seeds = $seeds;
         foreach(self::CONFIGURABLES as $configurable)
         {

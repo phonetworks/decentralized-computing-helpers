@@ -26,7 +26,7 @@ class Network
      */
     public static function ping(PeerInterface $peer): bool
     {
-        $uri = $peer->ip().":".$peer->port()."/p2p/ping";
+        $uri = $peer->pingUrl(); 
         return self::pingUri($uri);
     }
 

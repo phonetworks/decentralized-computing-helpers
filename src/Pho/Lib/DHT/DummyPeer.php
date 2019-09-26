@@ -43,4 +43,9 @@ class DummyPeer implements PeerInterface
     {
         return $this->port;
     }
+
+    public function pingUrl(): string
+    {
+        return $this->ip().":".$this->port()."/p2p/ping";
+    }
 }
