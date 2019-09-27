@@ -33,4 +33,11 @@ interface PeerInterface
      * @return integer
      */
     public function port(): int;
+
+    /**
+     * Returns the URL to ping
+     *
+     * @return string
+     */
+    public function pingUrl(): string;
 }
